@@ -50,3 +50,7 @@ if st.button("Run Analysis"):
     st.subheader("Timeline (first rows)")
     timeline = pd.read_csv(results["timeline_path"])
     st.dataframe(timeline.head(200))
+
+    st.subheader("Confusion Matrix")
+    if results.get("confusion_path") is not None:
+        st.image(str(results["confusion_path"]))

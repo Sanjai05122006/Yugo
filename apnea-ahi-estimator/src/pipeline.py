@@ -66,6 +66,25 @@ def run_pipeline(features_csv: Path):
     else:
         roc_auc = None
 
+        # ---- Confusion Matrix ----
+    conf_path = None
+    if y_true is not None:
+        cm = confusion_matrix(y_true, preds)
+
+        plt.figure(dpi=300)
+        plt.imshow(cm)
+        plt.title("Confusion Matrix (threshold = 0.5)")
+        plt.xlabel("Predicted")
+        plt.ylabel("True")
+        for (i, j), v in np.ndenumerate(cm):
+            plt.text(j, i, int(v), ha="center", va="center")
+        plt.colorbar()
+
+        conf_path = OUTPUTS / "confusion_matrix.png"
+        plt.savefig(conf_path, dpi=300, bbox_inches="tight")
+        plt.close()
+
+        
     # ---- SHAP (on a subset for speed) ----
     explainer = shap.TreeExplainer(model)
     sample_X = X.sample(min(500, len(X)), random_state=42)
@@ -113,5 +132,6 @@ def run_pipeline(features_csv: Path):
         "roc_path": roc_path,
         "shap_path": shap_path,
         "spec_path": spec_path,
+        "confusion_path": conf_path,
         "metrics_path": metrics_path,
     }
