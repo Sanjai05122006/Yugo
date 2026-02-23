@@ -13,13 +13,44 @@ def load_record(name: str):
     return signal, fs
 
 def load_labels(name: str):
-    ann = wfdb.rdann(str(DATASET_DIR / name), "apn")
+    """
+    Try to load apnea annotations for a record.
+    Priority:
+      1) name + 'er'  (e.g., a01er.apn)
+      2) name + 'r'   (e.g., a01r.apn)
+      3) name         (e.g., x07.apn)
+    """
+    candidates = [
+        f"{name}er",
+        f"{name}r",
+        name
+    ]
+
+    ann = None
+    used = None
+
+    for c in candidates:
+        try:
+            ann = wfdb.rdann(str(DATASET_DIR / c), "apn")
+            used = c
+            break
+        except FileNotFoundError:
+            continue
+
+    if ann is None:
+        raise FileNotFoundError(f"No .apn annotation found for record {name}")
+
+    print(f"Using annotation: {used}.apn for record {name}")
+
     labels = []
-    for s in ann.aux_note:
-        if s is not None and "A" in s:
+    for sym in ann.symbol:
+        # In Apnea-ECG:
+        # 'A' = apnea, 'N' = normal
+        if sym.upper() == "A":
             labels.append(1)
         else:
             labels.append(0)
+
     return np.array(labels)
 
 def segment_signal(signal, fs, window_sec=60):
