@@ -13,6 +13,16 @@ An **offline machine learning pipeline** to detect sleep apnea from the **Physio
 
 ---
 
+## Novelty & Patent Stub
+
+**Novelty:**
+This system introduces a highly efficient, offline pipeline for Sleep Apnea detection and AHI estimation that operates directly on single-lead ECG signals. By combining fast time-domain and frequency-domain feature extraction with a lightweight gradient boosted classifier (LightGBM), it achieves near-perfect performance (ROC-AUC ≈ 0.984) with a minimal computational footprint. This makes it exceptionally well-suited for offline, low-power, or embedded diagnostic environments without the heavy hardware requirements of deep learning models.
+
+**Patent Language Stub:**
+_System and Method for Offline Sleep Apnea Detection and Apnea-Hypopnea Index (AHI) Estimation using Lightweight Gradient Boosting on Single-Lead ECG Signals._
+
+---
+
 ## Folder Structure
 
 ```py
@@ -131,6 +141,11 @@ You can:
 - ECG signals from `.dat` / `.hea`
 - Minute-wise annotations from `.apn` (A = apnea, N = normal)
 
+**Citation:**
+
+- Penzel, T., Moody, G. B., Mark, R. G., Goldberger, A. L., & Peter, J. H. (2000). The Apnea-ECG Database. Computers in Cardiology 2000, 27, 255-258.
+- Goldberger, A., Amaral, L., Glass, L., Hausdorff, J., Ivanov, P. C., Mark, R., ... & Stanley, H. E. (2000). PhysioBank, PhysioToolkit, and PhysioNet: Components of a new research resource for complex physiologic signals. Circulation, 101(23), e215-e220.
+
 ---
 
 ## Model
@@ -142,6 +157,10 @@ You can:
 - Time-domain statistics (mean, std, RMS, etc.)
 - Frequency-domain features (band power, spectral centroid, etc.)
 - Class balancing enabled during training
+
+**Citation:**
+
+- Ke, G., Meng, Q., Finley, T., Wang, T., Chen, W., Ma, W., ... & Liu, Tie-Yan. (2017). LightGBM: A Highly Efficient Gradient Boosting Decision Tree. Advances in Neural Information Processing Systems, 30.
 
 ---
 
